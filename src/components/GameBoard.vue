@@ -88,6 +88,15 @@ function drawStones(ctx: CanvasRenderingContext2D) {
   }
 }
 
+function drawLastMoveHighlight(ctx: CanvasRenderingContext2D) {
+  if (!props.lastMove) return
+  const { x, y } = gridToPixel(props.lastMove.row, props.lastMove.col)
+  ctx.beginPath()
+  ctx.arc(x, y, 5, 0, Math.PI * 2)
+  ctx.fillStyle = '#e53e3e'
+  ctx.fill()
+}
+
 function render() {
   const canvas = canvasRef.value
   if (!canvas) return
@@ -103,6 +112,7 @@ function render() {
 
   drawBoard(ctx)
   drawStones(ctx)
+  drawLastMoveHighlight(ctx)
 }
 
 function pixelToGrid(px: number, py: number): Coord | null {
@@ -132,6 +142,7 @@ function handleClick(e: MouseEvent) {
 
 onMounted(render)
 watch(() => props.board, render, { deep: true })
+watch(() => props.lastMove, render)
 </script>
 
 <template>
