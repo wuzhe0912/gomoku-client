@@ -8,6 +8,10 @@ const props = defineProps<{
   lastMove: Coord | null
 }>()
 
+const emit = defineEmits<{
+  place: [coord: Coord]
+}>()
+
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 
 const PADDING = 24
@@ -80,6 +84,31 @@ function render() {
   drawBoard(ctx)
 }
 
+function pixelToGrid(px: number, py: number): Coord | null {
+  const col = Math.round((px - PADDING) / CELL_SIZE)
+  const row = Math.round((py - PADDING) / CELL_SIZE)
+
+  if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) return null
+
+  const { x, y } = gridToPixel(row, col)
+  const threshold = CELL_SIZE * 0.4
+  if (Math.abs(px - x) > threshold || Math.abs(py - y) > threshold) return null
+
+  return { row, col }
+}
+
+function handleClick(e: MouseEvent) {
+  const canvas = canvasRef.value
+  if (!canvas) return
+  const rect = canvas.getBoundingClientRect()
+  const scaleX = BOARD_PX / rect.width
+  const scaleY = BOARD_PX / rect.height
+  const px = (e.clientX - rect.left) * scaleX
+  const py = (e.clientY - rect.top) * scaleY
+  const coord = pixelToGrid(px, py)
+  if (coord) emit('place', coord)
+}
+
 onMounted(render)
 watch(() => props.board, render, { deep: true })
 </script>
@@ -89,5 +118,6 @@ watch(() => props.board, render, { deep: true })
     ref="canvasRef"
     class="cursor-pointer rounded shadow-md"
     :style="{ width: `${BOARD_PX}px`, height: `${BOARD_PX}px` }"
+    @click="handleClick"
   />
 </template>
