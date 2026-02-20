@@ -21,3 +21,8 @@ bun run dev
 ```bash
 bun run build
 ```
+
+## Progress Tracking
+
+- Client v0.0.1 checklist:
+  - `docs/progress/v0.0.1-client-checklist.md`
