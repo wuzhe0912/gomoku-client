@@ -12,8 +12,18 @@ const { state, placeStone, resetGame } = useGameState()
     <h1 class="mb-6 text-3xl font-bold tracking-tight text-gray-800">
       五子棋 Gomoku
     </h1>
-    <GameStatus :current-player="state.currentPlayer" class="mb-4" />
-    <GameBoard :board="state.board" :last-move="state.lastMove" @place="placeStone" />
+    <GameStatus
+      :current-player="state.currentPlayer"
+      :is-game-over="state.isGameOver"
+      :winner="state.winner"
+      class="mb-4"
+    />
+    <GameBoard
+      :board="state.board"
+      :last-move="state.lastMove"
+      :is-game-over="state.isGameOver"
+      @place="placeStone"
+    />
     <GameControls class="mt-6" @reset="resetGame" />
   </div>
 </template>

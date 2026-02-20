@@ -6,6 +6,7 @@ import type { Board, Coord } from '../types/game'
 const props = defineProps<{
   board: Board
   lastMove: Coord | null
+  isGameOver: boolean
 }>()
 
 const emit = defineEmits<{
@@ -148,7 +149,7 @@ watch(() => props.lastMove, render)
 <template>
   <canvas
     ref="canvasRef"
-    class="cursor-pointer rounded shadow-md"
+    :class="['rounded shadow-md', isGameOver ? 'cursor-default' : 'cursor-pointer']"
     :style="{ width: `${BOARD_PX}px`, height: `${BOARD_PX}px` }"
     @click="handleClick"
   />
