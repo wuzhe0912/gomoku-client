@@ -68,6 +68,26 @@ function drawBoard(ctx: CanvasRenderingContext2D) {
   }
 }
 
+const STONE_RADIUS = CELL_SIZE * 0.44
+
+function drawStones(ctx: CanvasRenderingContext2D) {
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      const cell = props.board[row]![col]
+      if (!cell) continue
+
+      const { x, y } = gridToPixel(row, col)
+      ctx.beginPath()
+      ctx.arc(x, y, STONE_RADIUS, 0, Math.PI * 2)
+      ctx.fillStyle = cell === 'black' ? '#111' : '#f5f5f5'
+      ctx.fill()
+      ctx.strokeStyle = cell === 'black' ? '#000' : '#ccc'
+      ctx.lineWidth = 1
+      ctx.stroke()
+    }
+  }
+}
+
 function render() {
   const canvas = canvasRef.value
   if (!canvas) return
@@ -82,6 +102,7 @@ function render() {
   ctx.scale(dpr, dpr)
 
   drawBoard(ctx)
+  drawStones(ctx)
 }
 
 function pixelToGrid(px: number, py: number): Coord | null {
