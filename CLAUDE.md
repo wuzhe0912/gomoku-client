@@ -44,6 +44,6 @@ Examples:
 
 - Commit title only. No `Co-Authored-By` or auto-generated signature lines.
 - Keep changes small and focused.
+- Use `bun` for dependency management and script execution. Do not use npm/yarn/pnpm in this repo.
 - Do not commit secrets. Keep `.env` in `.gitignore`, maintain `.env.example` if needed.
 - Default prose can be Traditional Chinese; keep technical terms in English.
-
