@@ -1,1 +1,0 @@
-# Clone Reddit Example
