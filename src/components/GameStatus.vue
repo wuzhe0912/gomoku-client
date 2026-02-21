@@ -5,6 +5,7 @@ defineProps<{
   currentPlayer: Player
   isGameOver: boolean
   winner: Player | null
+  isAiThinking?: boolean
 }>()
 </script>
 
@@ -25,6 +26,10 @@ defineProps<{
       <template v-else>
         <span>平手！</span>
       </template>
+    </template>
+    <template v-else-if="isAiThinking">
+      <span class="inline-block h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-gray-800" />
+      <span>AI 思考中...</span>
     </template>
     <template v-else>
       <span>目前回合：</span>

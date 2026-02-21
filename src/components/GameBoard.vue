@@ -7,6 +7,7 @@ const props = defineProps<{
   board: Board
   lastMove: Coord | null
   isGameOver: boolean
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -141,11 +142,13 @@ function clientToGrid(clientX: number, clientY: number): Coord | null {
 }
 
 function handleClick(e: MouseEvent) {
+  if (props.disabled) return
   const coord = clientToGrid(e.clientX, e.clientY)
   if (coord) emit('place', coord)
 }
 
 function handleTouch(e: TouchEvent) {
+  if (props.disabled) return
   const touch = e.changedTouches[0]
   if (!touch) return
   const coord = clientToGrid(touch.clientX, touch.clientY)
@@ -171,7 +174,7 @@ watch(() => props.lastMove, render)
 <template>
   <canvas
     ref="canvasRef"
-    :class="['w-full max-w-[564px] aspect-square rounded shadow-md', isGameOver ? 'cursor-default' : 'cursor-pointer']"
+    :class="['w-full max-w-[564px] aspect-square rounded shadow-md', isGameOver || disabled ? 'cursor-default' : 'cursor-pointer']"
     @click="handleClick"
     @touchend.prevent="handleTouch"
   />
