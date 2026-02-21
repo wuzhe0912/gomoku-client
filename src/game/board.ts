@@ -1,5 +1,5 @@
-import { BOARD_SIZE } from './constants'
-import type { Board, Cell, Coord, GameState, Player } from '../types/game'
+import { BOARD_SIZE } from '@/game/constants'
+import type { Board, Cell, Coord, GameState, Player } from '@/types/game'
 
 export function createEmptyBoard(): Board {
   return Array.from({ length: BOARD_SIZE }, () =>

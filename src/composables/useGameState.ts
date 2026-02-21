@@ -1,7 +1,7 @@
 import { ref } from 'vue'
-import { createInitialGameState, isCellEmpty, isValidCoord, opponent } from '../game/board'
-import { checkWin, isDraw } from '../game/win'
-import type { Coord, GameState } from '../types/game'
+import { createInitialGameState, isCellEmpty, isValidCoord, opponent } from '@/game/board'
+import { checkWin, isDraw } from '@/game/win'
+import type { Coord, GameState } from '@/types/game'
 
 export function useGameState() {
   const state = ref<GameState>(createInitialGameState())

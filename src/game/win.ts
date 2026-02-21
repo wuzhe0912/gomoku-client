@@ -1,5 +1,5 @@
-import { BOARD_SIZE } from './constants';
-import type { Board, Coord, Player } from '../types/game';
+import { BOARD_SIZE } from '@/game/constants';
+import type { Board, Coord, Player } from '@/types/game';
 
 const DIRECTIONS: [number, number][] = [
   [0, 1],  // horizontal →

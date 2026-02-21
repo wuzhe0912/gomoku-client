@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Player } from '../types/game'
+import type { Player } from '@/types/game'
 
 defineProps<{
   currentPlayer: Player

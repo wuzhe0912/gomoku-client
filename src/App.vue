@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import GameBoard from './components/GameBoard.vue'
-import GameControls from './components/GameControls.vue'
-import GameStatus from './components/GameStatus.vue'
-import { useGameState } from './composables/useGameState'
+import GameBoard from '@/components/GameBoard.vue'
+import GameControls from '@/components/GameControls.vue'
+import GameStatus from '@/components/GameStatus.vue'
+import { useGameState } from '@/composables/useGameState'
 
 const { state, placeStone, resetGame } = useGameState()
 </script>

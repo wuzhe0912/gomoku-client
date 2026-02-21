@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { checkWin, isDraw } from '../win';
-import { createEmptyBoard } from '../board';
-import { BOARD_SIZE } from '../constants';
-import type { Board, Coord, Player } from '../../types/game';
+import { checkWin, isDraw } from '@/game/win';
+import { createEmptyBoard } from '@/game/board';
+import { BOARD_SIZE } from '@/game/constants';
+import type { Board, Coord, Player } from '@/types/game';
 
 function placeStones(board: Board, coords: Coord[], player: Player) {
   for (const c of coords) {

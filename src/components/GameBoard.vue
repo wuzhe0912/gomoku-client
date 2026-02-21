@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { BOARD_SIZE } from '../game/constants'
-import type { Board, Coord } from '../types/game'
+import { BOARD_SIZE } from '@/game/constants'
+import type { Board, Coord } from '@/types/game'
 
 const props = defineProps<{
   board: Board
