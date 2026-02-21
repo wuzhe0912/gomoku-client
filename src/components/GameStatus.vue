@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex items-center gap-2 text-lg font-medium text-gray-700">
+  <div class="flex items-center gap-2 text-base font-medium text-gray-700 sm:text-lg">
     <template v-if="isGameOver">
       <template v-if="winner">
         <span

@@ -107,8 +107,6 @@ function render() {
   const dpr = window.devicePixelRatio || 1
   canvas.width = BOARD_PX * dpr
   canvas.height = BOARD_PX * dpr
-  canvas.style.width = `${BOARD_PX}px`
-  canvas.style.height = `${BOARD_PX}px`
   ctx.scale(dpr, dpr)
 
   drawBoard(ctx)
@@ -129,15 +127,26 @@ function pixelToGrid(px: number, py: number): Coord | null {
   return { row, col }
 }
 
-function handleClick(e: MouseEvent) {
+function clientToGrid(clientX: number, clientY: number): Coord | null {
   const canvas = canvasRef.value
-  if (!canvas) return
+  if (!canvas) return null
   const rect = canvas.getBoundingClientRect()
   const scaleX = BOARD_PX / rect.width
   const scaleY = BOARD_PX / rect.height
-  const px = (e.clientX - rect.left) * scaleX
-  const py = (e.clientY - rect.top) * scaleY
-  const coord = pixelToGrid(px, py)
+  const px = (clientX - rect.left) * scaleX
+  const py = (clientY - rect.top) * scaleY
+  return pixelToGrid(px, py)
+}
+
+function handleClick(e: MouseEvent) {
+  const coord = clientToGrid(e.clientX, e.clientY)
+  if (coord) emit('place', coord)
+}
+
+function handleTouch(e: TouchEvent) {
+  const touch = e.changedTouches[0]
+  if (!touch) return
+  const coord = clientToGrid(touch.clientX, touch.clientY)
   if (coord) emit('place', coord)
 }
 
@@ -149,8 +158,8 @@ watch(() => props.lastMove, render)
 <template>
   <canvas
     ref="canvasRef"
-    :class="['rounded shadow-md', isGameOver ? 'cursor-default' : 'cursor-pointer']"
-    :style="{ width: `${BOARD_PX}px`, height: `${BOARD_PX}px` }"
+    :class="['w-full max-w-[564px] aspect-square rounded shadow-md', isGameOver ? 'cursor-default' : 'cursor-pointer']"
     @click="handleClick"
+    @touchend.prevent="handleTouch"
   />
 </template>

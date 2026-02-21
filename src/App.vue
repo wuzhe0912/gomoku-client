@@ -8,8 +8,8 @@ const { state, placeStone, resetGame } = useGameState()
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col items-center bg-gray-100 py-8">
-    <h1 class="mb-6 text-3xl font-bold tracking-tight text-gray-800">
+  <div class="flex min-h-screen flex-col items-center bg-gray-100 px-4 py-4 sm:py-8">
+    <h1 class="mb-4 text-2xl font-bold tracking-tight text-gray-800 sm:mb-6 sm:text-3xl">
       五子棋 Gomoku
     </h1>
     <GameStatus
