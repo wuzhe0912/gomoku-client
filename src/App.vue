@@ -24,6 +24,16 @@ const { state, placeStone, resetGame } = useGameState()
       :is-game-over="state.isGameOver"
       @place="placeStone"
     />
-    <GameControls class="mt-6" @reset="resetGame" />
+    <GameControls
+      class="mt-4 sm:mt-6"
+      :disabled="state.moveCount === 0"
+      @reset="resetGame"
+    />
+    <p
+      v-if="state.isGameOver"
+      class="mt-3 text-sm text-gray-500"
+    >
+      點擊「重新開始」以再來一局
+    </p>
   </div>
 </template>
