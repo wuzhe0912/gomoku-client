@@ -2,7 +2,7 @@ import type { Board, Coord, Player } from '@/types/game'
 
 // --- Game Mode & Difficulty ---
 
-export type GameMode = 'pvp' | 'pve'
+export type GameMode = 'pvp' | 'pve' | 'online'
 
 export type AiDifficulty = 'easy' | 'normal' | 'hard'
 

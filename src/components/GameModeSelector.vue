@@ -12,6 +12,12 @@ const emit = defineEmits<{
   'update:aiDifficulty': [difficulty: AiDifficulty]
 }>()
 
+const modes: { value: GameMode; label: string }[] = [
+  { value: 'pvp', label: '雙人對弈' },
+  { value: 'pve', label: '人機對戰' },
+  { value: 'online', label: '線上對戰' },
+]
+
 const difficulties: { value: AiDifficulty; label: string }[] = [
   { value: 'easy', label: 'Easy' },
   { value: 'normal', label: 'Normal' },
@@ -23,28 +29,18 @@ const difficulties: { value: AiDifficulty; label: string }[] = [
   <div class="flex flex-col items-center gap-2">
     <div class="flex gap-2">
       <button
+        v-for="m in modes"
+        :key="m.value"
         :class="[
           'rounded px-3 py-1.5 text-sm font-medium transition-colors',
-          gameMode === 'pvp'
+          gameMode === m.value
             ? 'bg-gray-800 text-white'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
         ]"
         :disabled="disabled"
-        @click="emit('update:gameMode', 'pvp')"
+        @click="emit('update:gameMode', m.value)"
       >
-        雙人對弈
-      </button>
-      <button
-        :class="[
-          'rounded px-3 py-1.5 text-sm font-medium transition-colors',
-          gameMode === 'pve'
-            ? 'bg-gray-800 text-white'
-            : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
-        ]"
-        :disabled="disabled"
-        @click="emit('update:gameMode', 'pve')"
-      >
-        人機對戰
+        {{ m.label }}
       </button>
     </div>
     <div v-if="gameMode === 'pve'" class="flex gap-1.5">
