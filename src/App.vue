@@ -35,6 +35,7 @@ const {
   placeStone: placeStoneOnline,
   leaveRoom,
   getShareUrl,
+  tryReconnectFromSession,
   disconnect: disconnectOnline,
 } = useOnlineGame()
 
@@ -60,7 +61,7 @@ watch(gameMode, (newMode, oldMode) => {
   }
 })
 
-// Check URL for room ID (join via shared link)
+// Check URL for room ID or recover from session
 onMounted(() => {
   const params = new URLSearchParams(window.location.search)
   const roomFromUrl = params.get('room')
@@ -68,6 +69,8 @@ onMounted(() => {
     setGameMode('online')
     joinRoom(roomFromUrl)
     window.history.replaceState({}, '', window.location.pathname)
+  } else if (tryReconnectFromSession()) {
+    setGameMode('online')
   }
 })
 </script>
