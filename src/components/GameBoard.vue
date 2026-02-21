@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { BOARD_SIZE } from '../game/constants'
 import type { Board, Coord } from '../types/game'
 
@@ -104,10 +104,12 @@ function render() {
   const ctx = canvas.getContext('2d')
   if (!ctx) return
 
+  const rect = canvas.getBoundingClientRect()
   const dpr = window.devicePixelRatio || 1
-  canvas.width = BOARD_PX * dpr
-  canvas.height = BOARD_PX * dpr
-  ctx.scale(dpr, dpr)
+  canvas.width = rect.width * dpr
+  canvas.height = rect.height * dpr
+  const scale = (rect.width / BOARD_PX) * dpr
+  ctx.setTransform(scale, 0, 0, scale, 0, 0)
 
   drawBoard(ctx)
   drawStones(ctx)
@@ -150,7 +152,18 @@ function handleTouch(e: TouchEvent) {
   if (coord) emit('place', coord)
 }
 
-onMounted(render)
+let ro: ResizeObserver | null = null
+
+onMounted(() => {
+  ro = new ResizeObserver(render)
+  if (canvasRef.value) ro.observe(canvasRef.value)
+  render()
+})
+
+onUnmounted(() => {
+  ro?.disconnect()
+})
+
 watch(() => props.board, render, { deep: true })
 watch(() => props.lastMove, render)
 </script>
