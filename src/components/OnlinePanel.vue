@@ -90,24 +90,48 @@ const reasonLabels: Record<string, string> = {
 
     <!-- Playing: status bar -->
     <template v-if="phase === 'playing'">
-      <div class="flex w-full items-center justify-between rounded-lg bg-white px-4 py-2 shadow-sm">
-        <div class="flex items-center gap-2 text-sm">
-          <span>你是</span>
-          <span
-            class="inline-block h-4 w-4 rounded-full border"
-            :class="myColor === 'black' ? 'border-gray-800 bg-gray-900' : 'border-gray-300 bg-white'"
-          />
-          <span>{{ myColor === 'black' ? '黑棋' : '白棋' }}</span>
+      <div class="flex w-full flex-col gap-2">
+        <div class="flex w-full items-center justify-between rounded-lg bg-white px-4 py-2.5 shadow-sm">
+          <div class="flex items-center gap-2 text-sm">
+            <span>你是</span>
+            <span
+              class="inline-block h-4 w-4 rounded-full border"
+              :class="myColor === 'black' ? 'border-gray-800 bg-gray-900' : 'border-gray-300 bg-white'"
+            />
+            <span>{{ myColor === 'black' ? '黑棋' : '白棋' }}</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm">
+            <template v-if="!opponentConnected">
+              <span class="text-orange-500">對手離線中...</span>
+            </template>
+            <template v-else-if="currentPlayer === myColor">
+              <span class="font-medium text-green-600">輪到你了</span>
+            </template>
+            <template v-else>
+              <span class="text-gray-400">等待對手...</span>
+            </template>
+          </div>
         </div>
-        <div class="flex items-center gap-2 text-sm">
-          <template v-if="!opponentConnected">
-            <span class="text-orange-500">對手離線中...</span>
-          </template>
-          <template v-else-if="timerRemaining !== null && currentPlayer === myColor">
-            <span :class="timerRemaining <= 10 ? 'font-bold text-red-500' : 'text-gray-600'">
-              {{ Math.ceil(timerRemaining) }}s
-            </span>
-          </template>
+        <!-- Timer bar -->
+        <div
+          v-if="timerRemaining !== null"
+          class="flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm"
+          :class="currentPlayer === myColor ? 'bg-white shadow-sm' : 'bg-gray-50'"
+        >
+          <span class="text-gray-500">剩餘時間</span>
+          <div class="flex-1 rounded-full bg-gray-200 h-2">
+            <div
+              class="h-2 rounded-full transition-all duration-1000"
+              :class="timerRemaining <= 10 ? 'bg-red-500' : timerRemaining <= 20 ? 'bg-yellow-400' : 'bg-green-500'"
+              :style="{ width: `${Math.max((timerRemaining / 30) * 100, 0)}%` }"
+            />
+          </div>
+          <span
+            class="w-8 text-right font-mono text-sm"
+            :class="timerRemaining <= 10 ? 'font-bold text-red-500' : 'text-gray-600'"
+          >
+            {{ Math.ceil(timerRemaining) }}
+          </span>
         </div>
       </div>
     </template>
