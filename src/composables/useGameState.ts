@@ -74,6 +74,10 @@ export function useGameState() {
       s.lastMove = result.coord
       lastAiElapsedMs.value = result.elapsedMs
 
+      console.log(
+        `[AI] ${aiDifficulty.value} depth=${result.searchedDepth} time=${result.elapsedMs.toFixed(1)}ms sla=${config.slaMs}ms`,
+      )
+
       const winner = checkWin(s.board, result.coord)
       if (winner) {
         s.isGameOver = true

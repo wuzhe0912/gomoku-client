@@ -8,14 +8,14 @@ self.onmessage = (e: MessageEvent<ComputeMoveMessage>) => {
   const start = performance.now()
 
   try {
-    const coord = findBestMove(msg.board, msg.currentPlayer, msg.moveCount, msg.depth)
+    const result = findBestMove(msg.board, msg.currentPlayer, msg.moveCount, msg.depth, msg.slaMs)
     const elapsed = performance.now() - start
 
     const response: WorkerResponse = {
       type: 'move-result',
-      coord,
+      coord: result.coord,
       elapsedMs: elapsed,
-      searchedDepth: msg.depth,
+      searchedDepth: result.searchedDepth,
     }
     self.postMessage(response)
   } catch (err) {
