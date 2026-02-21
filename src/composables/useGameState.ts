@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 import { createInitialGameState, isCellEmpty, isValidCoord, opponent } from '@/game/board'
 import { checkWin, isDraw } from '@/game/win'
 import { DIFFICULTY_CONFIG } from '@/types/ai'
@@ -57,8 +57,9 @@ export function useGameState() {
     const config = DIFFICULTY_CONFIG[aiDifficulty.value]
 
     try {
+      const rawBoard = toRaw(s.board).map(row => [...toRaw(row)])
       const result = await compute(
-        s.board,
+        rawBoard,
         s.currentPlayer,
         s.moveCount,
         config.depth,
